@@ -1,0 +1,11 @@
+INP R0 #6
+MOV R1 R0
+startloop:
+CMP R1 #0
+BEQ endloop
+ADD R2 R2 R0
+SUB R1 R1 #1
+B startloop
+endloop:
+OUT R2 4
+HALT

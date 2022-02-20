@@ -27,8 +27,8 @@ class Assembly():
                         "MVN": (["R","O"], self.MVN),
                         "LSL": (["R","R","O"], self.LSL),
                         "LSR": (["R","R","O"], self.LSR),
-                        "INP": (["R","A"], self.INP),
-                        "OUT": (["R","A"], self.OUT),
+                        "INP": (["R"], self.INP),
+                        "OUT": (["R"], self.OUT),
                         "HALT": ([], self.HALT)}
         self.branchSet = {"BEQ": (["O"], self.BEQ),
                           "BNE": (["O"], self.BNE),
@@ -102,6 +102,7 @@ class Assembly():
             raise Exception(f"Actual Value not Recognised: {val}")
 
     def MatchPattern(self, inp, pattern):
+        if len(inp) != len(pattern): return False
         for i in range(len(pattern)):
             if pattern[i] == "A": pass
             elif pattern[i][0] == "O" and (inp[i][0] == "R" or inp[i][0] == "#"): pass
@@ -151,6 +152,6 @@ class Assembly():
     def HALT(self, inp):
         self.halt = True
     def INP(self, inp):
-        self.WriteReg(self.RefVal(inp[0]), int(input("Input:")))
+        self.WriteReg(self.RefVal(inp[0]), int(input("Input: ")))
     def OUT(self, inp):
         print("Out:", self.ActVal(inp[0]))

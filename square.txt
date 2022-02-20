@@ -8,4 +8,4 @@ SUB R1 R1 #1
 B startloop
 endloop:
 OUT R2 4
-HALT
+HALT 5

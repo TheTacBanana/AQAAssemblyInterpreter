@@ -17,24 +17,24 @@ class Assembly():
 
         self.instSet = {"LDR": (["R","M"], self.LDR),
                         "STR": (["R","M"], self.STR),
-                        "ADD": (["R","R","A"], self.ADD),
-                        "SUB": (["R","R","A"], self.SUB),
-                        "MOV": (["R","A"], self.MOV),
-                        "CMP": (["R","A"], self.CMP),
-                        "AND": (["R","R","A"], self.AND),
-                        "ORR": (["R","R","A"], self.ORR),
-                        "EOR": (["R","R","A"], self.EOR),
-                        "MVN": (["R","A"], self.MVN),
-                        "LSL": (["R","R","A"], self.LSL),
-                        "LSR": (["R","R","A"], self.LSR),
+                        "ADD": (["R","R","O"], self.ADD),
+                        "SUB": (["R","R","O"], self.SUB),
+                        "MOV": (["R","O"], self.MOV),
+                        "CMP": (["R","O"], self.CMP),
+                        "AND": (["R","R","O"], self.AND),
+                        "ORR": (["R","R","O"], self.ORR),
+                        "EOR": (["R","R","O"], self.EOR),
+                        "MVN": (["R","O"], self.MVN),
+                        "LSL": (["R","R","O"], self.LSL),
+                        "LSR": (["R","R","O"], self.LSR),
                         "INP": (["R","A"], self.INP),
                         "OUT": (["R","A"], self.OUT),
-                        "HALT": (["A"], self.HALT)}
-        self.branchSet = {"BEQ": (["A"], self.BEQ),
-                          "BNE": (["A"], self.BNE),
-                          "BGT": (["A"], self.BGT),
-                          "BLT": (["A"], self.BLT),
-                          "B": (["A"], self.B)}
+                        "HALT": ([], self.HALT)}
+        self.branchSet = {"BEQ": (["O"], self.BEQ),
+                          "BNE": (["O"], self.BNE),
+                          "BGT": (["O"], self.BGT),
+                          "BLT": (["O"], self.BLT),
+                          "B": (["O"], self.B)}
 
     def ProcessInstruction(self, instruction, index):
         curInst = instruction.split(" ")
@@ -104,6 +104,7 @@ class Assembly():
     def MatchPattern(self, inp, pattern):
         for i in range(len(pattern)):
             if pattern[i] == "A": pass
+            elif pattern[i][0] == "O" and (inp[i][0] == "R" or inp[i][0] == "#"): pass
             elif inp[i][0] == "R" and not pattern[i] == "R": return False
             elif inp[i].isnumeric() and not pattern[i] == "M": return False
             elif inp[i][0] == "#" and not pattern[i] == "N": return False

@@ -6,4 +6,6 @@ with open(input(), 'r') as f:
 lang = Assembly()
 index = 0
 while not lang.halt:
+    if index >= len(instructions) and lang.findingLabel != None:
+        raise Exception(f"Label: {lang.findingLabel} not found")
     index = lang.ProcessInstruction(copy(instructions[index]), index)
